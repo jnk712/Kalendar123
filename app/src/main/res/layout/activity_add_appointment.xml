@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/appointment_name_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Appointment Name:" />
+
+    <EditText
+        android:id="@+id/appointment_name_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/appointment_time_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Appointment Time:" />
+
+    <TimePicker
+        android:id="@+id/appointment_time_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/appointment_place_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Appointment Place:" />
+
+    <EditText
+        android:id="@+id/appointment_place_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/save_appointment_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Save Appointment" />
+
+    <EditText
+        android:id="@+id/appointment_date_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Appointment Date" />
+
+
+
+
+
+</LinearLayout>
