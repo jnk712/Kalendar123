@@ -1,6 +1,7 @@
 package com.example.kalendar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,10 +29,13 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText password_input;
     private Calendar calendar;
 
+    private LogInActivity logInActivity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         calendar = Calendar.getInstance();
 
@@ -84,12 +88,10 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(intent);
 
-                //Save the Account of the User in an Object
-                new User(name_input.getText().toString(), email_input.getText().toString(), Date.valueOf(String.valueOf(yearPicker.getValue()) + "-" + String.valueOf(monthPicker.getValue()) + "-" + String.valueOf(dayPicker.getValue())), password_input.getText().toString());
-                //TODO: Fix inputs being null(How get inputted String)
-                //TODO: User Object in Database
-
-                Log.d("Test: ", new User(name_input.getText().toString(), email_input.getText().toString(), Date.valueOf(String.valueOf(yearPicker.getValue()) + "-" + String.valueOf(monthPicker.getValue()) + "-" + String.valueOf(dayPicker.getValue())), password_input.getText().toString()).toString());
+                //Save the Account of the User in an Object and store it in a Database
+                logInActivity.addToDatabase(new User(name_input.getText().toString(), email_input.getText().toString(), Date.valueOf(String.valueOf(yearPicker.getValue()) + "-" + String.valueOf(monthPicker.getValue()) + "-" + String.valueOf(dayPicker.getValue())), password_input.getText().toString()));
+                //TODO: Fix Above
+                //TODO: Check if the Inputs are valid
 
                 //Set loggedIn to true
                 SharedPreferences sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
@@ -97,6 +99,21 @@ public class RegisterActivity extends AppCompatActivity {
                 editor.putBoolean("LoggedIn", true);
                 editor.apply();
 
+                // Finish the RegisterActivity so the user cannot go back to it
+                finish();
+            }
+        });
+
+
+        // Find the LogIn button
+        Button logInButton = findViewById(R.id.account_button);
+        // Set an OnClickListener on the confirm button
+        logInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // When the confirm button is clicked, start the MainActivity
+                Intent intent = new Intent(RegisterActivity.this, LogInActivity.class);
+                startActivity(intent);
                 // Finish the RegisterActivity so the user cannot go back to it
                 finish();
             }

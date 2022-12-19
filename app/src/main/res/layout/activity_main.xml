@@ -10,20 +10,113 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/prior_month_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:src="@drawable/ic_baseline_arrow_back_24"/>
+
+        <View android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"/>
 
         <TextView
+            android:layout_marginTop="10dp"
             android:id="@+id/current_month_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Current Month"
             android:layout_below="@id/current_month_text_view"
             android:textSize="24sp" />
 
+        <View android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"/>
+        <ImageButton
+            android:id="@+id/next_month_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:src="@drawable/ic_baseline_arrow_forward_24"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="50dp">
+
+        <TextView
+            android:id="@+id/day_of_week_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:text="  Mon " />
+
+        <TextView
+            android:id="@+id/day_of_week_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:text="  Tue " />
+
+        <TextView
+            android:id="@+id/day_of_week_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:text="  Wed " />
+
+        <TextView
+            android:id="@+id/day_of_week_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:text="  Thu " />
+
+        <TextView
+            android:id="@+id/day_of_week_5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:text="   Fri " />
+
+        <TextView
+            android:id="@+id/day_of_week_6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:text="  Sat " />
+
+        <TextView
+            android:id="@+id/day_of_week_7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:text="   Sun" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="50dp">
+
         <GridView
+            android:layout_marginTop="20dp"
             android:id="@+id/calendar_grid_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,7 +138,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/white"
+        android:theme="@style/ThemeOverlay.AppCompat"
         app:menu="@menu/drawer_menu">
 
     </com.google.android.material.navigation.NavigationView>

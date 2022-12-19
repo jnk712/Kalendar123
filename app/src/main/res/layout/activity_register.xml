@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B6D6D5"
     android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Light"
     >
 
     <TextView
@@ -21,14 +23,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Name"
-        android:inputType="textPersonName" />
+        android:inputType="textPersonName"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
         android:id="@+id/email_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
-        android:inputType="textEmailAddress" />
+        android:inputType="textEmailAddress"
+        tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -61,14 +65,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <EditText
         android:id="@+id/password_input_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password Confirmation"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        tools:ignore="TouchTargetSizeCheck" />
 
     <LinearLayout
         android:layout_marginTop="70dp"
@@ -79,9 +85,10 @@
         android:id="@+id/confirm_button"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Log In"
+        android:text="Register"
         android:textSize="24sp"
         android:textStyle="bold"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
         />
     </LinearLayout>
 
@@ -91,6 +98,7 @@
         android:gravity="center">
 
         <Button
+            android:id="@+id/account_button"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:text="Already registered"

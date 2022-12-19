@@ -1,14 +1,19 @@
 package com.example.kalendar;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.view.View;
 
-public class AddAppointmentActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+
+public class AddAppointmentActivity extends AppCompatActivity {
 
     // Declare UI elements
     private EditText appointmentNameEditText;
@@ -21,6 +26,20 @@ public class AddAppointmentActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_appointment);
+
+        //activate darkmode?
+        SharedPreferences sharedPreferences = getSharedPreferences("DarkmodePref", Context.MODE_PRIVATE);
+        boolean darkmode = sharedPreferences.getBoolean("Darkmode", false);
+
+        if (darkmode){
+            //Turn on darkmode
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else{
+            //Turn off darkmode
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
 
         // Initialize UI elements
         appointmentNameEditText = (EditText) findViewById(R.id.appointment_name_edit_text);

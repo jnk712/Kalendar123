@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#B6D6D5"
+    android:orientation="vertical"
+    android:theme="@style/ThemeOverlay.AppCompat.Light"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="92dp"
+        android:gravity="center"
+        android:text="@string/LogIn"
+        android:textColor="#504D91"
+        android:textSize="48sp"
+        android:textStyle="bold" />
+
+
+    <EditText
+        android:layout_marginTop="50dp"
+        android:id="@+id/email_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        tools:ignore="TouchTargetSizeCheck,TouchTargetSizeCheck" />
+
+
+
+    <EditText
+        android:layout_marginTop="50dp"
+        android:id="@+id/password_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/confirm_Login"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text="Log In"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+
+</LinearLayout>
