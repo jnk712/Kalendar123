@@ -5,7 +5,8 @@ import java.sql.Date;
 import java.util.Arrays;
 
 public class DatabaseLokal {
-    private  ArrayList<User> database = new ArrayList<User>(Arrays.asList(new User("Jannik", "jannik2005.kruger@gmail.com", Date.valueOf("2005-3-14"), "Passwort")));
+    //TODO: Later delete
+    private ArrayList<User> database = new ArrayList<User>(Arrays.asList(new User("Jannik", "jannik2005.kruger@gmail.com", Date.valueOf("2005-3-14"), "Passwort")));
 
     public boolean searchDatabase(String email, String password){
         for(int i = 0; i<database.size(); i++){

@@ -17,7 +17,8 @@ public class LogInActivity extends AppCompatActivity {
 
     private EditText email_input;
     private EditText password_input;
-    private DatabaseLokal database = new DatabaseLokal();
+    DatabaseLokal database = UserSingleton.getInstance().getDatabase();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

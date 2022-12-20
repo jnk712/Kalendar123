@@ -4,8 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.ui.NavigationUI;
-
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -33,16 +33,17 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton priorMonthButton;
     private ImageButton nextMonthButton;
 
+    private boolean loggedIn;
+
     // Get the current date and time
     Calendar calendar = Calendar.getInstance();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //Login Pref
         SharedPreferences sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        boolean loggedIn = sharedPreferences.getBoolean("LoggedIn", false);
+        loggedIn = sharedPreferences.getBoolean("LoggedIn", false);
         //For Developing Purposes Remove ! to Reverse sharedPreferences
         // Add this line to check if loggedIn is false
         if (!loggedIn) {
@@ -174,7 +175,8 @@ public class MainActivity extends AppCompatActivity {
                             // Restart the activity to apply the light theme
                             recreate();
                             //Tell other Activities to activate Lightmode
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            SharedPreferences sharedDarkmode = getSharedPreferences("DarkmodePref", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedDarkmode.edit();
                             editor.putBoolean("Darkmode", false);
                             editor.apply();
                         } else {
@@ -184,12 +186,23 @@ public class MainActivity extends AppCompatActivity {
                             // Restart the activity to apply the dark theme
                             recreate();
                             //Tell other Activities to activate Lightmode
-                            SharedPreferences sharedPreferences = getSharedPreferences("DarkmodePref", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            SharedPreferences sharedDarkmode = getSharedPreferences("DarkmodePref", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedDarkmode.edit();
                             editor.putBoolean("Darkmode", true);
                             editor.apply();
                         }
                         return true;
+                    case R.id.logOut:
+                        //Logout of the App and return to the Registration Page
+                        loggedIn = sharedPreferences.getBoolean("LoggedIn", false);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putBoolean("LoggedIn", false);
+                        editor.apply();
+                        //Open Registration Page
+                        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
+                        startActivity(intent);
+                        // Finish the MainActivity so the user cannot go back to it
+                        finish();
                     default:
                         return false;
                 }

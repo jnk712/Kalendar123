@@ -18,6 +18,7 @@ import java.time.Year;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.Calendar;
+import com.example.kalendar.UserSingleton;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -88,9 +89,9 @@ public class RegisterActivity extends AppCompatActivity {
                 Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                 startActivity(intent);
 
-                //Save the Account of the User in an Object and store it in a Database
-                logInActivity.addToDatabase(new User(name_input.getText().toString(), email_input.getText().toString(), Date.valueOf(String.valueOf(yearPicker.getValue()) + "-" + String.valueOf(monthPicker.getValue()) + "-" + String.valueOf(dayPicker.getValue())), password_input.getText().toString()));
-                //TODO: Fix Above
+                UserSingleton.getInstance().setDatabase(new DatabaseLokal());
+                DatabaseLokal database = UserSingleton.getInstance().getDatabase();
+                database.addToDatabase(new User(name_input.getText().toString(), email_input.getText().toString(), Date.valueOf(String.valueOf(yearPicker.getValue()) + "-" + String.valueOf(monthPicker.getValue()) + "-" + String.valueOf(dayPicker.getValue())), password_input.getText().toString()));
                 //TODO: Check if the Inputs are valid
 
                 //Set loggedIn to true
@@ -111,7 +112,7 @@ public class RegisterActivity extends AppCompatActivity {
         logInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // When the confirm button is clicked, start the MainActivity
+                // When the LogIn Button is pressed start the Login Activity
                 Intent intent = new Intent(RegisterActivity.this, LogInActivity.class);
                 startActivity(intent);
                 // Finish the RegisterActivity so the user cannot go back to it
@@ -120,3 +121,4 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 }
+

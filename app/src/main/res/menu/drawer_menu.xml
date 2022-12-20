@@ -6,4 +6,7 @@
         android:title="Add Friends" />
     <item android:id="@+id/toggle_dark_mode_menu_item"
         android:title="Toggle Dark Mode" />
+    <item android:id="@+id/logOut"
+        android:title="Log Out"
+        android:icon="@drawable/ic_baseline_logout_24" />
 </menu>
