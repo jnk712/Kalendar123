@@ -58,9 +58,4 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void addToDatabase(User u){
-        this.database.addToDatabase(u);
-    }
-
 }

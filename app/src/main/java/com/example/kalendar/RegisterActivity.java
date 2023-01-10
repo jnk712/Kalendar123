@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
         yearPicker = findViewById(R.id.year_picker);
 
         dayPicker.setMinValue(1);
-        dayPicker.setMaxValue(calendar.getActualMaximum(Calendar.DAY_OF_MONTH));  //TODO: Maximum Amount of Days equal to Days in Month
+        dayPicker.setMaxValue(calendar.getActualMaximum(Calendar.DAY_OF_MONTH));
         monthPicker.setMinValue(1);
         monthPicker.setMaxValue(12);
 

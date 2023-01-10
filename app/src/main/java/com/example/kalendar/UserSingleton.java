@@ -1,6 +1,7 @@
 package com.example.kalendar;
 
 public class UserSingleton {
+    //TODO Klasse umbenennen. Missverständnis möglich.
     private static UserSingleton instance;
     private DatabaseLokal database;
 

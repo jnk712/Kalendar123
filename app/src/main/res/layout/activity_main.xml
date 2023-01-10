@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
+    xmlns:tools="http://schemas.android.com/tools"
 
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <SearchView
+        android:layout_marginTop="20dp"
+        android:id="@+id/search_view"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:queryHint="Search for appointment (Name)"
+        android:background="@drawable/rounded_edges"
+        android:elevation="24dp"/>
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <ImageButton
             android:id="@+id/prior_month_button"
             android:layout_width="wrap_content"
@@ -23,7 +37,6 @@
         <View android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"/>
-
         <TextView
             android:layout_marginTop="10dp"
             android:id="@+id/current_month_text_view"
@@ -37,6 +50,7 @@
         <View android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_weight="1"/>
+
         <ImageButton
             android:id="@+id/next_month_button"
             android:layout_width="wrap_content"
@@ -45,12 +59,12 @@
             android:src="@drawable/ic_baseline_arrow_forward_24"
             />
     </LinearLayout>
-
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="120dp">
 
         <TextView
             android:id="@+id/day_of_week_1"
@@ -108,21 +122,22 @@
             android:textStyle="bold"
             android:text="   Sun" />
     </LinearLayout>
-
     <LinearLayout
+        android:id="@+id/view_1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="103dp">
 
         <GridView
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="35dp"
             android:id="@+id/calendar_grid_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:numColumns="7"
             android:listSelector="@drawable/calendar_grid_item_selector"
-            android:stretchMode="columnWidth" />
+            android:stretchMode="columnWidth"
+            android:outlineSpotShadowColor="@color/icon_dark"/>
 
         <Button
             android:id="@+id/add_appointment_button"
@@ -131,6 +146,10 @@
             android:layout_gravity="center"
             android:text="Add Appointment" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <com.google.android.material.navigation.NavigationView
