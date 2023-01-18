@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "759691959089",
+    "firebase_url": "https://projekt-gruppe-1-2-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "projekt-gruppe-1-2",
+    "storage_bucket": "projekt-gruppe-1-2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759691959089:android:56df9e4af42c410a4eee10",
+        "android_client_info": {
+          "package_name": "com.example.kalendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "759691959089-0evbqjfqf540ggpsgkkoievbr6m174gb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdDaLuY2isrqYgpxffvLDdidZ5XNT4cC4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "759691959089-0evbqjfqf540ggpsgkkoievbr6m174gb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
