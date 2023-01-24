@@ -15,6 +15,14 @@ public class User {
         this.password = password;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
+    public Date getBirthDate() {
+        return this.birthDate;
+    }
+
     public String getEmail() {
         return this.email;
     }

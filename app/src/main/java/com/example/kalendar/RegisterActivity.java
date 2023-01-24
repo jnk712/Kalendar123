@@ -1,9 +1,12 @@
 package com.example.kalendar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,12 +15,23 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import android.content.SharedPreferences;
 import android.content.Context;
+import android.widget.Toast;
 
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import java.sql.Date;
 import java.time.Year;
 import java.time.Month;
 import java.time.YearMonth;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+
 import com.example.kalendar.UserSingleton;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -37,6 +51,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
 
         calendar = Calendar.getInstance();
 
@@ -60,6 +76,15 @@ public class RegisterActivity extends AppCompatActivity {
         dayPicker.setValue(1);
         monthPicker.setValue(1);
         yearPicker.setValue(2000);
+
+        //internet check
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+            Log.d("Internet", "Connected");
+        } else {
+            Log.d("Internet", "Not Connected");
+        }
 
         monthPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
@@ -85,23 +110,32 @@ public class RegisterActivity extends AppCompatActivity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // When the confirm button is clicked, start the MainActivity
-                Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                startActivity(intent);
+                auth.createUserWithEmailAndPassword(email_input.getText().toString(), password_input.getText().toString())
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser user = task.getResult().getUser();
+                                    String userId = user.getUid();
+                                    DatabaseReference userRef = database.getReference("users").child(userId);
+                                    Map<String, Object> updates = new HashMap<>();
+                                    updates.put("name", name_input.getText().toString());
+                                    updates.put("birthdate", String.valueOf(yearPicker.getValue()) + "-" + String.valueOf(monthPicker.getValue()) + "-" + String.valueOf(dayPicker.getValue()));
+                                    userRef.updateChildren(updates);
 
-                UserSingleton.getInstance().setDatabase(new DatabaseLokal());
-                DatabaseLokal database = UserSingleton.getInstance().getDatabase();
-                database.addToDatabase(new User(name_input.getText().toString(), email_input.getText().toString(), Date.valueOf(String.valueOf(yearPicker.getValue()) + "-" + String.valueOf(monthPicker.getValue()) + "-" + String.valueOf(dayPicker.getValue())), password_input.getText().toString()));
+                                    // When the confirm button is clicked, start the MainActivity
+                                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    // Finish the RegisterActivity so the user cannot go back to it
+                                    finish();
+                                } else {
+                                    // error creating user
+                                    Log.d("Firebase Auth", "Sign-in failed", task.getException());
+                                    Toast.makeText(RegisterActivity.this, "Unable to create user.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
                 //TODO: Check if the Inputs are valid
-
-                //Set loggedIn to true
-                SharedPreferences sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putBoolean("LoggedIn", true);
-                editor.apply();
-
-                // Finish the RegisterActivity so the user cannot go back to it
-                finish();
             }
         });
 

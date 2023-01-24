@@ -1,59 +1,93 @@
 package com.example.kalendar;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.List;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
+    private List<Appointment> appointments;
+    private FirebaseDatabase database;
+    private String userID;
 
-    private ArrayList<Appointment> mData;
-
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public CardView mCardView;
-        public TextView mname;
-        public TextView mplace;
-        public TextView mdate;
-        public TextView mtime;
-
-
-        public MyViewHolder(View v) {
-            super(v);
-            mCardView = (CardView) v.findViewById(R.id.card_view);
-            mname = (TextView) v.findViewById(R.id.appointment_name);
-            mplace = (TextView) v.findViewById(R.id.appointment_place);
-            mdate = (TextView) v.findViewById(R.id.appointment_date);
-            mtime = (TextView) v.findViewById(R.id.appointment_time);
-        }
+    public CardAdapter(String userID) {
+        this.userID = userID;
+        appointments = new ArrayList<>();
+        database = FirebaseDatabase.getInstance();
+        getAppointments();
     }
 
-    public CardAdapter(ArrayList<Appointment> data) {
-        mData = data;
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item, parent, false);
+        return new ViewHolder(view);
     }
 
     @Override
-    public CardAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item, parent, false);
-        MyViewHolder vh = new MyViewHolder(v);
-        return vh;
-    }
-
-    @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.mname.setText(mData.get(position).getName());
-        holder.mplace.setText(mData.get(position).getPlace());
-        holder.mtime.setText(mData.get(position).getTime());
-        holder.mdate.setText(mData.get(position).getDate());
-
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Appointment appointment = appointments.get(position);
+        holder.mName.setText(appointment.getName());
+        holder.mPlace.setText(appointment.getPlace());
+        holder.mDate.setText(appointment.getDate());
+        holder.mTime.setText(appointment.getTime());
     }
 
     @Override
     public int getItemCount() {
-        return mData.size();
+        return appointments.size();
+    }
+
+    private void getAppointments() {
+        DatabaseReference reference = database.getReference("users").child(userID).child("appointments");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                appointments.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String name = snapshot.child("name").getValue(String.class);
+                    String place = snapshot.child("place").getValue(String.class);
+                    String date = snapshot.child("date").getValue(String.class);
+                    String time = snapshot.child("time").getValue(String.class);
+                    appointments.add(new Appointment(name, place, date, time));
+                }
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //TODO Write result to cancelation
+            }
+        });
+    }
+
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView mName, mPlace, mDate, mTime;
+        private CardView mCardView;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            mCardView = (CardView) itemView.findViewById(R.id.card_view);
+            mName = (TextView) itemView.findViewById(R.id.appointment_name);
+            mPlace = (TextView) itemView.findViewById(R.id.appointment_place);
+            mDate = (TextView) itemView.findViewById(R.id.appointment_date);
+            mTime = (TextView) itemView.findViewById(R.id.appointment_time);
+        }
     }
 }

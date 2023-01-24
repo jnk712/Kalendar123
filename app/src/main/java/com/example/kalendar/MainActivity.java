@@ -2,6 +2,10 @@ package com.example.kalendar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.FirebaseDatabase;
 
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GestureDetectorCompat;
@@ -51,7 +55,7 @@ import java.util.Date;
 import java.time.LocalDate;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offline Setzung --> richtige Stelle finden
     //Thresholds for SwipeDetector
     private static final int SWIPE_THRESHOLD = 100;
     private static final int SWIPE_VELOCITY_THRESHOLD = 100;
@@ -76,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
     //For resultIntent
     private int LAUNCH_SECOND_ACTIVITY = 1;
 
-    private boolean loggedIn;
+    //initilize user variable
+    private FirebaseUser user;
 
     // Get the current date and time
     Calendar calendar = Calendar.getInstance();
@@ -84,26 +89,30 @@ public class MainActivity extends AppCompatActivity {
     // Get the current date and time for colored Bg
     Calendar cal = Calendar.getInstance();
 
-
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //initilise database
+        FirebaseAuth auth = FirebaseAuth.getInstance();
 
+        //initialise gesture listener for swipes
         mGestureDetector = new GestureDetectorCompat(this, new GestureListener());
 
-        //Login Pref
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-        loggedIn = sharedPreferences.getBoolean("LoggedIn", false);
-        //For Developing Purposes Remove ! to Reverse sharedPreferences
-        // Add this line to check if loggedIn is false
-        if (!loggedIn) {
-            // If loggedIn is false, start the RegisterActivity
+        //Check if a user is logged in
+        if (auth.getCurrentUser() == null) {
+            //Enable offline
+            //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            // If user is empty, start the RegisterActivity
             Intent intent = new Intent(this, RegisterActivity.class);
             startActivity(intent);
             // Finish the MainActivity so the user cannot go back to it
             finish();
             return;
+        }else {
+            //Enable offline
+            //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            user = auth.getCurrentUser();
         }
         setContentView(R.layout.activity_main);
 
@@ -299,11 +308,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                         return true;
                     case R.id.logOut:
-                        //Logout of the App and return to the Registration Page
-                        loggedIn = sharedPreferences.getBoolean("LoggedIn", false);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean("LoggedIn", false);
-                        editor.apply();
+                        //Logout of the App
+                        auth.signOut();
                         //Open Registration Page
                         Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                         startActivity(intent);
@@ -317,7 +323,6 @@ public class MainActivity extends AppCompatActivity {
 
         //CardViews for Appointments
         if (AppointmentSingleton.getInstance().getDatabase() != null) {
-            ArrayList<Appointment> data = AppointmentSingleton.getInstance().getDatabase().getDatabase();
             RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
             recyclerView.setOnTouchListener(new View.OnTouchListener() {
@@ -329,7 +334,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            CardAdapter cardAdapter = new CardAdapter(data);
+            CardAdapter cardAdapter = new CardAdapter(user.getUid());
             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
             recyclerView.setAdapter(cardAdapter);
         }
@@ -461,4 +466,9 @@ public class MainActivity extends AppCompatActivity {
         mGestureDetector.onTouchEvent(event);
         return super.onTouchEvent(event);
     }
+
+    ArrayList<Appointment> appointments = new ArrayList<>();
+
+
+
 }

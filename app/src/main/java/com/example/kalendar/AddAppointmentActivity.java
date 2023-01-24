@@ -17,8 +17,15 @@ import androidx.annotation.IntRange;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.time.Year;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddAppointmentActivity extends AppCompatActivity {
 
@@ -37,8 +44,11 @@ public class AddAppointmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         calendar = Calendar.getInstance();
-
+        //get database
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         setContentView(R.layout.activity_add_appointment);
+        FirebaseUser user = auth.getCurrentUser();
 
         //activate darkmode?
         SharedPreferences sharedPreferences = getSharedPreferences("DarkmodePref", Context.MODE_PRIVATE);
@@ -113,6 +123,11 @@ public class AddAppointmentActivity extends AppCompatActivity {
         saveAppointmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Get/create appointment node in Database
+                String userId = user.getUid();
+                DatabaseReference appointmentsRef = database.getReference("users").child(userId).child("appointments");
+                String appointmentId = appointmentsRef.push().getKey();
+
                 // Get the appointment name, date, time, and place from the UI elements
                 String appointmentName = appointmentNameEditText.getText().toString();
                 int hour = appointmentTimePicker.getCurrentHour();
@@ -121,9 +136,13 @@ public class AddAppointmentActivity extends AppCompatActivity {
                 String appointmentPlace = appointmentPlaceEditText.getText().toString();
                 String appointmentDate = String.valueOf(yearPicker.getValue()) + "-" + String.valueOf(monthPicker.getValue()) + "-" + String.valueOf(dayPicker.getValue());
 
-                // TODO: Save the appointment to the database
-                AppointmentDatabase database = AppointmentSingleton.getInstance().getDatabase();
-                database.addToDatabase(new Appointment(appointmentName, appointmentPlace, appointmentTime, appointmentDate));
+                Map<String, Object> appointment = new HashMap<>();
+                appointment.put("name", appointmentName);
+                appointment.put("place", appointmentPlace);
+                appointment.put("time", appointmentTime);
+                appointment.put("date", appointmentDate);
+
+                appointmentsRef.child(appointmentId).updateChildren(appointment);
 
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("result",true);
