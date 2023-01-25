@@ -147,8 +147,6 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
                 searchView.setIconified(false);
             }
         });
-        //Set Search Design
-        //this.searchDesign();
 
 
         //Send Touch event to GestureDetector from Grid
@@ -277,6 +275,8 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
                         return true;
                     case R.id.add_friends_menu_item:
                         // Add a friend
+                        Intent intentFriend = new Intent(MainActivity.this, Add_Friend_Activity.class);
+                        startActivity(intentFriend);
                         // TODO: Database Search
                         return true;
                     case R.id.toggle_dark_mode_menu_item:
@@ -310,6 +310,7 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
                     case R.id.logOut:
                         //Logout of the App
                         auth.signOut();
+                        user = null;
                         //Open Registration Page
                         Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
                         startActivity(intent);
@@ -322,24 +323,21 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
         });
 
         //CardViews for Appointments
-        if (AppointmentSingleton.getInstance().getDatabase() != null) {
-            RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-            recyclerView.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    // Pass the touch event to the gesture detector
-                    mGestureDetector.onTouchEvent(motionEvent);
-                    return false;
-                }
-            });
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // Pass the touch event to the gesture detector
+                mGestureDetector.onTouchEvent(motionEvent);
+                return false;
+            }
+        });
 
-            CardAdapter cardAdapter = new CardAdapter(user.getUid());
-            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-            recyclerView.setAdapter(cardAdapter);
+        CardAdapter cardAdapter = new CardAdapter(user.getUid());
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setAdapter(cardAdapter);
         }
-
-    }
 
     private void updateCalendar() {
         // Get the current month and year

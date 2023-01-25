@@ -2,7 +2,6 @@ package com.example.kalendar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-import android.content.SharedPreferences;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -24,15 +22,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import java.sql.Date;
+
 import java.time.Year;
-import java.time.Month;
-import java.time.YearMonth;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.example.kalendar.UserSingleton;
 
 public class RegisterActivity extends AppCompatActivity {
 
