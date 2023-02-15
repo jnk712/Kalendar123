@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
         super.onCreate(savedInstanceState);
         //initilise database
         FirebaseAuth auth = FirebaseAuth.getInstance();
-
         //initialise gesture listener for swipes
         mGestureDetector = new GestureDetectorCompat(this, new GestureListener());
 
