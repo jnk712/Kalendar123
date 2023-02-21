@@ -10,8 +10,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -33,6 +31,7 @@ public class Add_Friend_Activity extends AppCompatActivity {
                 searchView.setIconified(false);
             }
         });
+
         searchRecyclerView = findViewById(R.id.user_list);
         searchAdapter = new Search_Adapter();
         searchRecyclerView.setAdapter(searchAdapter);

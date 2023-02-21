@@ -52,6 +52,7 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         User user = userList.get(position);
         holder.nameTextView.setText(user.getName());
+        holder.emailTextView.setText(user.getEmail());
     }
 
     @Override
@@ -62,6 +63,7 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
     public void searchForUsers(String searchQuery) {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser userAuth = auth.getCurrentUser();
+        String currentUserID = userAuth.getUid();
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
         Query query = usersRef.orderByChild("name").startAt(searchQuery).endAt(searchQuery + "\uf8ff");
         query.addValueEventListener(new ValueEventListener() {
@@ -70,9 +72,11 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
                 List<User> userList = new ArrayList<>();
                 for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     String userId = childSnapshot.getKey();
-                    String name = childSnapshot.child("name").getValue(String.class);
-                    User user = new User(userId, name, userAuth.getEmail());
-                    userList.add(user);
+                    if(!currentUserID.equals(userId)) {
+                        String name = childSnapshot.child("name").getValue(String.class);
+                        User user = new User(userId, name, userAuth.getEmail());
+                        userList.add(user);
+                    }
                 }
                 setUserList(userList);
             }
@@ -86,6 +90,10 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
     public void clear() {
         userList.clear();
         notifyDataSetChanged();
+    }
+    //TODO Mail getten
+    public void getEmail(String userId){
+        FirebaseAuth auth = FirebaseAuth.getInstance();
     }
 }
 
