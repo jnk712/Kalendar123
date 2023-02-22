@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -66,6 +67,7 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
         String currentUserID = userAuth.getUid();
         DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
         Query query = usersRef.orderByChild("name").startAt(searchQuery).endAt(searchQuery + "\uf8ff");
+
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -74,7 +76,8 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
                     String userId = childSnapshot.getKey();
                     if(!currentUserID.equals(userId)) {
                         String name = childSnapshot.child("name").getValue(String.class);
-                        User user = new User(userId, name, userAuth.getEmail());
+                        String mail = childSnapshot.child("mail").getValue(String.class);
+                        User user = new User(userId, name, mail);
                         userList.add(user);
                     }
                 }
@@ -90,10 +93,6 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
     public void clear() {
         userList.clear();
         notifyDataSetChanged();
-    }
-    //TODO Mail getten
-    public void getEmail(String userId){
-        FirebaseAuth auth = FirebaseAuth.getInstance();
     }
 }
 

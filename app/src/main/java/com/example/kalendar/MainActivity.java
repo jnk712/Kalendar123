@@ -464,7 +464,7 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
         return super.onTouchEvent(event);
     }
 
-    ArrayList<Appointment> appointments = new ArrayList<>();
+    //ArrayList<Appointment> appointments = new ArrayList<>();
 
 
 

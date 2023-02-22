@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_edges"
-        app:queryHint="add Friends with E-Mail"
+        app:queryHint="Search for friend name"
         android:id="@+id/friend_search"/>
 
     <androidx.recyclerview.widget.RecyclerView

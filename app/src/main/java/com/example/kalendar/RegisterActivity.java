@@ -115,6 +115,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     Map<String, Object> updates = new HashMap<>();
                                     updates.put("name", name_input.getText().toString());
                                     updates.put("birthdate", String.valueOf(yearPicker.getValue()) + "-" + String.valueOf(monthPicker.getValue()) + "-" + String.valueOf(dayPicker.getValue()));
+                                    updates.put("mail", email_input.getText().toString());
                                     userRef.updateChildren(updates);
 
                                     // When the confirm button is clicked, start the MainActivity
