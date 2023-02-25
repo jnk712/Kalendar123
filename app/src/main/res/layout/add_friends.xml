@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_edges"
         app:queryHint="Search for friend name"
+        android:elevation="24dp"
         android:id="@+id/friend_search"/>
 
     <androidx.recyclerview.widget.RecyclerView

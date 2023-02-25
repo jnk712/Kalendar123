@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/end_app_menu_item"
-        android:title="End App"
-        android:icon="@drawable/ic_baseline_exit_to_app_24"/>
     <item android:id="@+id/add_friends_menu_item"
         android:title="Add Friends"
         android:icon="@drawable/ic_baseline_contacts_24"/>
     <item android:id="@+id/toggle_dark_mode_menu_item"
         android:title="Toggle Dark Mode"
         android:icon="@drawable/ic_baseline_dark_mode_24"/>
+    <item android:id="@+id/friends"
+        android:title="Friends"
+        android:icon="@drawable/friends" />
+    <item android:id="@+id/requests"
+        android:title="Requests"
+        android:icon="@drawable/requests" />
     <item android:id="@+id/logOut"
         android:title="Log Out"
         android:icon="@drawable/ic_baseline_logout_24" />
+    <item android:id="@+id/end_app_menu_item"
+        android:title="End App"
+        android:icon="@drawable/exit"/>
 </menu>
