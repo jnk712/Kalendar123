@@ -15,6 +15,13 @@
         android:theme="@style/Theme.Kalendar"
         tools:targetApi="31">
         <activity
+            android:name=".Friend_Request_Activity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Add_Friend_Activity"
             android:exported="false">
             <meta-data

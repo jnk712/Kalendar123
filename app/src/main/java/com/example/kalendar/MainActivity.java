@@ -315,6 +315,10 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
                         startActivity(intent);
                         // Finish the MainActivity so the user cannot go back to it
                         finish();
+
+                    case R.id.requests:
+                        Intent intentRequest = new Intent(MainActivity.this, Friend_Request_Activity.class);
+                        startActivity(intentRequest);
                     default:
                         return false;
                 }
@@ -463,9 +467,4 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
         mGestureDetector.onTouchEvent(event);
         return super.onTouchEvent(event);
     }
-
-    //ArrayList<Appointment> appointments = new ArrayList<>();
-
-
-
 }
