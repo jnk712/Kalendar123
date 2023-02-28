@@ -319,6 +319,12 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
                     case R.id.requests:
                         Intent intentRequest = new Intent(MainActivity.this, Friend_Request_Activity.class);
                         startActivity(intentRequest);
+                        return true;
+
+                    case R.id.friends:
+                        Intent intentFriendActivity = new Intent(MainActivity.this, Friend_Activity.class);
+                        startActivity(intentFriendActivity);
+                        return true;
                     default:
                         return false;
                 }
