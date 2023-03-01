@@ -1,8 +1,12 @@
 package com.example.kalendar;
 
 import android.annotation.SuppressLint;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -24,6 +28,15 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
     private List<Appointment> appointments;
     private FirebaseDatabase database;
     private String userID;
+    private int position;
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
 
     public CardAdapter(String userID) {
         this.userID = userID;
@@ -46,6 +59,48 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.ViewHolder> {
         holder.mPlace.setText(appointment.getPlace());
         holder.mDate.setText(appointment.getDate());
         holder.mTime.setText(appointment.getTime());
+        // Set the OnCreateContextMenuListener for the itemView
+        holder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                // Inflate the menu from a resource file
+                MenuInflater inflater = new MenuInflater(v.getContext());
+                inflater.inflate(R.menu.appointment_optionmenu, menu);
+
+                // Set the title for the menu
+                menu.setHeaderTitle(String.valueOf(appointments.get(holder.getAdapterPosition()).getName()));
+                // Save the position of the RecyclerView item in the variable
+                setPosition(holder.getAdapterPosition());
+
+            }
+        });
+
+        holder.itemView.setOnTouchListener(new View.OnTouchListener() {
+            private float x;
+            private float y;
+            private long startClickTime;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                //Check if Scroll or Touch
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    startClickTime = System.currentTimeMillis();
+                }
+                else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (System.currentTimeMillis() - startClickTime < ViewConfiguration.getTapTimeout()) {
+                        // Touch was a simple tap
+                        x = event.getX();
+                        y = event.getY();
+                        //Show menu
+                        holder.itemView.showContextMenu(x, y);
+                    }
+                    else {
+                        // Touch was a not a simple tap
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     @Override

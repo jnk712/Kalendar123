@@ -70,6 +70,7 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
     private SearchView searchView;
     private NavigationView navigationView;
     private boolean darkmode;
+    private RecyclerView recyclerView;
 
     //GestureDetector
     private GestureDetectorCompat mGestureDetector;
@@ -263,6 +264,8 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
         });
 
 
+        this.addRecyclerView();
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -297,7 +300,9 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
                             //Set App to Darkmode
                             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
                             // Restart the activity to apply the dark theme
+                            addRecyclerView();
                             recreate();
+
                             //Tell other Activities to activate Lightmode
                             SharedPreferences sharedDarkmode = getSharedPreferences("DarkmodePref", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedDarkmode.edit();
@@ -331,21 +336,6 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
             }
         });
 
-        //CardViews for Appointments
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        recyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                // Pass the touch event to the gesture detector
-                mGestureDetector.onTouchEvent(motionEvent);
-                return false;
-            }
-        });
-
-        CardAdapter cardAdapter = new CardAdapter(user.getUid());
-        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
-        recyclerView.setAdapter(cardAdapter);
         }
 
     private void updateCalendar() {
@@ -472,5 +462,22 @@ public class MainActivity extends AppCompatActivity {//TODO Absturz wegen offlin
     public boolean onTouchEvent(MotionEvent event) {
         mGestureDetector.onTouchEvent(event);
         return super.onTouchEvent(event);
+    }
+
+    public void addRecyclerView(){
+        //CardViews for Appointments
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setAdapter(null);
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                // Pass the touch event to the gesture detector
+                mGestureDetector.onTouchEvent(motionEvent);
+                return false;
+            }
+        });
+        CardAdapter cardAdapter = new CardAdapter(user.getUid());
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+        recyclerView.setAdapter(cardAdapter);
     }
 }

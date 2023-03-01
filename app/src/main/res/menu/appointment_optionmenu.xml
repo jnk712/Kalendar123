@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:theme="@style/Theme.Kalendar">
+    <item android:id="@+id/action_delete_appointment"
+        android:title="Delete Appointment" />
+    <item android:id="@+id/action_share_appointment"
+        android:title="Share Appointment"
+        />
+</menu>
